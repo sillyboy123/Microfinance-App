@@ -1,0 +1,139 @@
+@page
+@using MicrofinanceApp.Data
+@using Microsoft.EntityFrameworkCore
+@model MicrofinanceApp.Pages.DatabaseStatusModel
+@{
+    ViewData["Title"] = "Database Status";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-lg border-0 rounded-4 mb-4">
+        <div class="card-header bg-primary text-white p-4">
+            <div class="d-flex align-items-center">
+                <div class="me-3 fs-1">
+                    <i class="fas fa-database"></i>
+                </div>
+                <div>
+                    <h2 class="mb-1">Database Status</h2>
+                    <p class="mb-0 opacity-75">Current database configuration and health</p>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="mb-3">Database Information</h4>
+                    
+                    <div class="table-responsive mb-4">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th class="bg-light w-25">Connection Status</th>
+                                <td>
+                                    @if (Model.CanConnect)
+                                    {
+                                        <span class="text-success"><i class="fas fa-check-circle me-2"></i>Connected</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger"><i class="fas fa-times-circle me-2"></i>Disconnected</span>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light">Provider</th>
+                                <td>@Model.ProviderName</td>
+                            </tr>
+                            @if (Model.IsSQLite)
+                            {
+                                <tr>
+                                    <th class="bg-light">Database File</th>
+                                    <td>@Model.DatabasePath</td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-light">File Size</th>
+                                    <td>@Model.FileSize</td>
+                                </tr>
+                                <tr>
+                                    <th class="bg-light">Last Modified</th>
+                                    <td>@Model.LastModified</td>
+                                </tr>
+                            }
+                            <tr>
+                                <th class="bg-light">Pending Migrations</th>
+                                <td>@(Model.PendingMigrationCount > 0 ? $"Yes ({Model.PendingMigrationCount})" : "No")</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <h4 class="mb-3">Record Counts</h4>
+                    
+                    <div class="table-responsive mb-4">
+                        <table class="table table-bordered">
+                            @foreach (var item in Model.TableCounts)
+                            {
+                                <tr>
+                                    <th class="bg-light w-25">@item.Key</th>
+                                    <td>@item.Value</td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            @if (!Model.CanConnect)
+            {
+                <div class="alert alert-danger">
+                    <h5 class="alert-heading">Connection Error</h5>
+                    <p>@Model.ErrorMessage</p>
+                    @if (!string.IsNullOrEmpty(Model.InnerErrorMessage))
+                    {
+                        <hr>
+                        <p class="mb-0">@Model.InnerErrorMessage</p>
+                    }
+                </div>
+            }
+            
+            <div class="card bg-light border-0 mt-4">
+                <div class="card-body">
+                    <h4 class="card-title">Database Management Tools</h4>
+                    <p>You can use the following tools to manage your database:</p>
+                    
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Switch to SQLite</h5>
+                                    <p class="card-text">Configure the application to use SQLite database.</p>
+                                    <p class="text-muted small">Run SetupSQLiteBackup.bat</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Switch to SQL Server</h5>
+                                    <p class="card-text">Configure the application to use SQL Server.</p>
+                                    <p class="text-muted small">Edit appsettings.json directly</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Reset Database</h5>
+                                    <p class="card-text">Delete and recreate the SQLite database.</p>
+                                    <p class="text-muted small">Run ResetSQLiteDatabase.bat</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

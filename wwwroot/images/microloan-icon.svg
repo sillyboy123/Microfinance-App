@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Money Growth Illustration -->
+    <circle cx="60" cy="60" r="50" fill="rgba(13, 110, 253, 0.1)"/>
+    <path d="M40 80 L60 50 L80 80" stroke="#0D6EFD" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="60" cy="50" r="15" fill="#FFC107"/>
+    <text x="54" y="55" font-family="Arial" font-size="16" fill="#FFFFFF" font-weight="bold">$</text>
+</svg>

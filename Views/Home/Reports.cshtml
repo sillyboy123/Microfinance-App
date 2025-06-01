@@ -1,0 +1,411 @@
+@model MicrofinanceApp.ViewModels.ReportsViewModel
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<div class="container">
+    <h2 class="mb-4">Financial Reports</h2>
+    
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Date Range Filter</h5>
+                    <form class="row g-3">
+                        <div class="col-md-4">
+                            <label for="startDate" class="form-label">Start Date</label>
+                            <input type="date" class="form-control" id="startDate" name="StartDate" value="@(Model.StartDate?.ToString("yyyy-MM-dd"))">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="endDate" class="form-label">End Date</label>
+                            <input type="date" class="form-control" id="endDate" name="EndDate" value="@(Model.EndDate?.ToString("yyyy-MM-dd"))">
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary me-2">
+                                Apply Filter
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary">
+                                Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary" id="btn-summary" onclick="changeReportType('Summary')">Summary</button>
+                <button type="button" class="btn btn-outline-primary" id="btn-loans" onclick="changeReportType('Loans')">Loans</button>
+                <button type="button" class="btn btn-outline-primary" id="btn-clients" onclick="changeReportType('Clients')">Clients</button>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="text-end">
+                <button class="btn btn-primary" id="btn-export">
+                    Export Report
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Summary Report Section -->
+    <div id="report-summary" class="report-section">
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title">Total Clients</h6>
+                        <h2>@Model.TotalClients</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title">Active Loans</h6>
+                        <h2>@Model.ActiveLoans</h2>
+                        <p>$@Model.TotalLoanAmount.ToString("#,##0.00")</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title">Savings Accounts</h6>
+                        <h2>@Model.ActiveSavingsAccounts</h2>
+                        <p>$@Model.TotalSavingsAmount.ToString("#,##0.00")</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        Loan Portfolio by Status
+                    </div>
+                    <div class="card-body">
+                        <canvas id="loansByStatusChart" height="250"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        Client Registrations
+                    </div>
+                    <div class="card-body">
+                        <canvas id="clientRegistrationsChart" height="250"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loans Report Section -->
+    <div id="report-loans" class="report-section d-none">
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        Loan Performance
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Status</th>
+                                        <th>Count</th>
+                                        <th>Amount</th>
+                                        <th>Percentage</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var status in Model.LoansByStatusCount.Keys)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <span class="badge @GetStatusBadgeClass(Enum.Parse<LoanStatus>(status))">
+                                                    @status
+                                                </span>
+                                            </td>
+                                            <td>@Model.LoansByStatusCount[status]</td>
+                                            <td>$@Model.LoansByStatusAmount.GetValueOrDefault(status, 0).ToString("#,##0.00")</td>
+                                            <td>
+                                                @{
+                                                    var percentage = Model.TotalLoanAmount > 0 
+                                                        ? (Model.LoansByStatusAmount.GetValueOrDefault(status, 0) / Model.TotalLoanAmount) * 100 
+                                                        : 0;
+                                                }
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar" 
+                                                         style="width: @percentage.ToString("0.0")%;" 
+                                                         aria-valuenow="@percentage.ToString("0.0")" 
+                                                         aria-valuemin="0" 
+                                                         aria-valuemax="100">@percentage.ToString("0.0")%</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        Recent Loans
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Loan Details</th>
+                                        <th>Client</th>
+                                        <th>Amount</th>
+                                        <th>Term</th>
+                                        <th>Interest Rate</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var loan in Model.RecentLoans)
+                                    {
+                                        <tr>
+                                            <td>
+                                                Loan #@loan.Id
+                                                <br />
+                                                <small>@loan.Purpose?.Substring(0, Math.Min(loan.Purpose?.Length ?? 0, 30))@(loan.Purpose?.Length > 30 ? "..." : "")</small>
+                                            </td>
+                                            <td>
+                                                @(loan.Client != null ? $"{loan.Client.FirstName} {loan.Client.LastName}" : "Unknown")
+                                            </td>
+                                            <td>
+                                                $@loan.Amount.ToString("#,##0.00")
+                                            </td>
+                                            <td>@loan.Term months</td>
+                                            <td>@loan.InterestRate%</td>
+                                            <td>
+                                                <span class="badge @GetStatusBadgeClass(loan.Status)">
+                                                    @loan.Status
+                                                </span>
+                                            </td>
+                                            <td>
+                                                @loan.ApplicationDate.ToString("MMM dd, yyyy")
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Clients Report Section -->
+    <div id="report-clients" class="report-section d-none">
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        Recent Transactions
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Transaction</th>
+                                        <th>Client</th>
+                                        <th>Amount</th>
+                                        <th>Type</th>
+                                        <th>Reference</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var transaction in Model.RecentTransactions)
+                                    {
+                                        <tr>
+                                            <td>
+                                                TR-@transaction.Id
+                                                <br />
+                                                <small>@transaction.Description?.Substring(0, Math.Min(transaction.Description?.Length ?? 0, 30))@(transaction.Description?.Length > 30 ? "..." : "")</small>
+                                            </td>
+                                            <td>
+                                                @(transaction.Client != null ? $"{transaction.Client.FirstName} {transaction.Client.LastName}" : "Unknown")
+                                            </td>
+                                            <td>
+                                                $@transaction.Amount.ToString("#,##0.00")
+                                            </td>
+                                            <td>
+                                                @transaction.Type
+                                            </td>
+                                            <td>@transaction.Reference</td>
+                                            <td>
+                                                @transaction.TransactionDate.ToString("MMM dd, yyyy")
+                                                <br />
+                                                <small>@transaction.TransactionDate.ToString("HH:mm")</small>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-@(transaction.Status == 0 ? "success" : "warning")">
+                                                    @transaction.Status
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Helper functions to change report type
+        function changeReportType(type) {
+            // Hide all report sections
+            document.querySelectorAll('.report-section').forEach(el => {
+                el.classList.add('d-none');
+            });
+            
+            // Show selected report section
+            document.getElementById(`report-${type.toLowerCase()}`).classList.remove('d-none');
+            
+            // Update active button styling
+            document.querySelectorAll('.btn-group .btn').forEach(el => {
+                if (el.id && el.id.startsWith('btn-')) {
+                    el.classList.remove('btn-primary');
+                    el.classList.add('btn-outline-primary');
+                }
+            });
+              if (document.getElementById(`btn-${type.toLowerCase()}`)) {
+                document.getElementById(`btn-${type.toLowerCase()}`).classList.remove('btn-outline-primary');
+                document.getElementById(`btn-${type.toLowerCase()}`).classList.add('btn-primary');
+            }
+        }
+        
+        // Initialize charts when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simple chart styling
+            
+            // Loan Status Chart
+            const loanCtx = document.getElementById('loansByStatusChart').getContext('2d');
+            const loansByStatusChart = new Chart(loanCtx, {
+                type: 'bar',
+                data: {
+                    labels: @Html.Raw(Json.Serialize(Model.LoansByStatusCount.Keys)),
+                    datasets: [{
+                        label: 'Number of Loans',
+                        data: @Html.Raw(Json.Serialize(Model.LoansByStatusCount.Values)),
+                        backgroundColor: [
+                            'rgba(13, 110, 253, 0.6)',
+                            'rgba(25, 135, 84, 0.6)',
+                            'rgba(255, 193, 7, 0.6)',
+                            'rgba(220, 53, 69, 0.6)',
+                            'rgba(13, 202, 240, 0.6)',
+                            'rgba(108, 117, 125, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(13, 110, 253, 1)',
+                            'rgba(25, 135, 84, 1)',
+                            'rgba(255, 193, 7, 1)',
+                            'rgba(220, 53, 69, 1)',
+                            'rgba(13, 202, 240, 1)',
+                            'rgba(108, 117, 125, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            
+            // Client Registrations Chart - simplified styling
+            const clientCtx = document.getElementById('clientRegistrationsChart').getContext('2d');
+            const clientRegistrationsChart = new Chart(clientCtx, {
+                type: 'line',
+                data: {
+                    labels: @Html.Raw(Json.Serialize(Model.ClientRegistrationsByMonth.Keys)),
+                    datasets: [{
+                        label: 'New Clients',
+                        data: @Html.Raw(Json.Serialize(Model.ClientRegistrationsByMonth.Values)),
+                        backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                        borderColor: 'rgba(13, 110, 253, 1)',
+                        borderWidth: 2,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            
+            // Set default report type
+            changeReportType('@Model.ReportType');
+            
+            // Initialize export button functionality
+            document.getElementById('btn-export').addEventListener('click', function() {
+                alert('Report export functionality will be implemented soon!');
+            });
+        });
+    </script>
+}
+
+@functions {
+    public string GetStatusBadgeClass(LoanStatus status)
+    {
+        return status switch
+        {
+            LoanStatus.Pending => "bg-warning",
+            LoanStatus.Approved => "bg-primary",
+            LoanStatus.Rejected => "bg-danger",
+            LoanStatus.Active => "bg-success",
+            LoanStatus.Completed => "bg-info",
+            LoanStatus.Defaulted => "bg-dark",
+            _ => "bg-secondary"
+        };
+    }
+}

@@ -1,0 +1,135 @@
+@using Microsoft.AspNetCore.Identity
+
+<ul class="navbar-nav">
+@if (User?.Identity?.IsAuthenticated ?? false)
+{    <li class="nav-item me-1">
+        <a class="nav-link position-relative py-2" href="#" id="notificationsDropdown" role="button"
+           data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-bell nav-icon" style="font-size: 0.9rem;"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" 
+                  style="font-size: 0.7rem; padding: 0.25rem 0.4rem;">
+                3
+                <span class="visually-hidden">unread notifications</span>
+            </span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end shadow-lg rounded-4 border-0 p-0 overflow-hidden" aria-labelledby="notificationsDropdown" style="width: 320px;">
+            <li class="p-3 bg-primary bg-gradient text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0">Notifications</h6>
+                    <span class="badge bg-light text-primary rounded-pill">3 New</span>
+                </div>
+            </li>
+            <li class="p-2 border-bottom">
+                <a class="dropdown-item p-2 rounded-3" href="#">
+                    <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <div class="avatar-initial rounded-circle d-flex align-items-center justify-content-center bg-primary bg-opacity-10"
+                                 style="width: 45px; height: 45px;">
+                                <i class="fas fa-user-plus text-primary"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="mb-1 fw-semibold">New client registered</h6>
+                            <p class="text-muted small mb-0">John Smith completed registration</p>
+                            <small class="text-muted">30 minutes ago</small>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li class="p-2 border-bottom">
+                <a class="dropdown-item p-2 rounded-3" href="#">
+                    <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <div class="avatar-initial rounded-circle d-flex align-items-center justify-content-center bg-success bg-opacity-10"
+                                 style="width: 45px; height: 45px;">
+                                <i class="fas fa-money-bill-wave text-success"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="mb-1 fw-semibold">Loan payment received</h6>
+                            <p class="text-muted small mb-0">$250.00 payment from Anna Johnson</p>
+                            <small class="text-muted">2 hours ago</small>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li class="p-2">
+                <a class="dropdown-item p-2 rounded-3" href="#">
+                    <div class="d-flex">
+                        <div class="flex-shrink-0">
+                            <div class="avatar-initial rounded-circle d-flex align-items-center justify-content-center bg-warning bg-opacity-10"
+                                 style="width: 45px; height: 45px;">
+                                <i class="fas fa-exclamation-triangle text-warning"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="mb-1 fw-semibold">Loan payment overdue</h6>
+                            <p class="text-muted small mb-0">Michael Brown is 3 days overdue</p>
+                            <small class="text-muted">1 day ago</small>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li class="p-2 border-top">
+                <a class="dropdown-item text-center py-2" href="#">
+                    <small class="fw-semibold">View all notifications</small>
+                </a>
+            </li>
+        </ul>
+    </li>
+
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle auth-button" href="#" id="userDropdown" role="button" 
+           data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="avatar-initial rounded-circle d-inline-flex align-items-center justify-content-center bg-gradient text-white"
+                 style="width: 28px; height: 28px; background: linear-gradient(45deg, #4158D0, #C850C0);">
+            @{
+                var userName = User.Identity.Name ?? "User";
+                var displayName = userName.Contains('@') ? userName.Split('@')[0] : userName;
+                <span class="fw-bold" style="font-size: 0.85rem;">@displayName[0]</span>
+            }
+            </div>
+            <span class="d-none d-md-inline ms-1">@displayName</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end shadow-lg rounded-3 border-0" aria-labelledby="userDropdown">
+            <li>
+                <div class="px-3 py-2 border-bottom">
+                    <h6 class="fw-bold mb-0">@displayName</h6>
+                    <span class="text-muted small">Administrator</span>
+                </div>
+            </li>
+            <li>
+                <a class="dropdown-item py-2" asp-controller="Account" asp-action="Profile">
+                    <i class="fas fa-id-card me-2 text-primary"></i>My Profile
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item py-2" asp-controller="Account" asp-action="Settings">
+                    <i class="fas fa-cog me-2 text-primary"></i>Account Settings
+                </a>
+            </li>
+            <li><hr class="dropdown-divider my-1"></li>
+            <li>
+                <form asp-controller="Account" asp-action="Logout" method="post" class="m-0">
+                    <button type="submit" class="dropdown-item py-2 text-danger">
+                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link auth-button" asp-controller="Account" asp-action="Login">
+            <i class="fas fa-sign-in-alt me-1"></i>Login
+        </a>
+    </li>
+    <li class="nav-item ms-2">
+        <a class="nav-link auth-button" asp-controller="Account" asp-action="Register">
+            <i class="fas fa-user-plus me-1"></i>Register
+        </a>
+    </li>
+}
+</ul>

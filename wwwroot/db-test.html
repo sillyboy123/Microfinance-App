@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microfinance App Database Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { padding: 20px; }
+        .card { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4 mb-4">Microfinance App Database Test Page</h1>
+        
+        <div class="alert alert-info">
+            <h5><i class="fas fa-info-circle me-2"></i>New Feature Available!</h5>
+            <p class="mb-0">Try out our new enhanced <a href="db-test-dashboard.html">Database Test Dashboard</a> for a more comprehensive testing experience.</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Quick Diagnostics</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Perform a quick check on the database connection status.</p>
+                        <a href="http://localhost:5000/Home/Diagnostics" class="btn btn-primary" target="_blank">
+                            <i class="fas fa-bolt me-2"></i>Quick Diagnostics
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">                <div class="card shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Full Connection Test</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Run a comprehensive database connection test with detailed information.</p>
+                        <div class="d-grid gap-2">
+                            <a href="http://localhost:5000/ConnectionTest" class="btn btn-success" target="_blank">
+                                <i class="fas fa-database me-2"></i>Full Connection Test
+                            </a>
+                            <a href="http://localhost:5000/connection-test" class="btn btn-outline-success" target="_blank">
+                                <i class="fas fa-bolt me-2"></i>Quick Connection Test
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+              <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">Database Test Hub</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Access the database test welcome page for comprehensive tools and information.</p>
+                        <a href="http://localhost:5000/DbTestWelcome" class="btn btn-info" target="_blank">
+                            <i class="fas fa-tools me-2"></i>Database Test Hub
+                        </a>
+                    </div>
+                </div>
+                    <div class="card-body">
+                        <p>Access all database troubleshooting tools in one place.</p>
+                        <a href="http://localhost:5000/db-test" class="btn btn-info" target="_blank">
+                            <i class="fas fa-tools me-2"></i>Database Test Hub
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card shadow-sm mt-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">Alternative Ports</h5>
+            </div>
+            <div class="card-body">
+                <p>If the default port (5000) doesn't work, try one of these:</p>
+                <div class="row">
+                    <div class="col-md-4">
+                        <a href="http://localhost:5001/db-test" class="btn btn-outline-secondary w-100 mb-2" target="_blank">
+                            Port 5001
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="http://localhost:7000/db-test" class="btn btn-outline-secondary w-100 mb-2" target="_blank">
+                            Port 7000
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="http://localhost:7001/db-test" class="btn btn-outline-secondary w-100 mb-2" target="_blank">
+                            Port 7001
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

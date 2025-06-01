@@ -1,0 +1,185 @@
+@model MicrofinanceApp.Models.SavingsAccount
+
+@{
+    ViewData["Title"] = "Open Savings Account";
+    var clients = (ViewData["Clients"] as IEnumerable<SelectListItem>) ?? Enumerable.Empty<SelectListItem>();
+}
+
+<div class="hero-section text-white mb-4">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <h1 class="display-4 fw-bold mb-3">Open Savings Account</h1>
+                <p class="lead mb-0 opacity-90">Start saving with competitive interest rates</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }                    <form asp-controller="Savings" asp-action="Create" method="post" id="savingsForm">
+                        <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+
+                        <div class="mb-4">
+                            <label asp-for="ClientId" class="form-label">Select Client</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-user text-primary"></i>
+                                </span>
+                                <select asp-for="ClientId" class="form-select border-start-0" asp-items="clients" required
+                                       data-val="true" data-val-required="Please select a client">
+                                    <option value="">Select a client...</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="ClientId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Balance" class="form-label">Initial Deposit</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-dollar-sign text-primary"></i>
+                                </span>
+                                <input asp-for="Balance" class="form-control border-start-0" type="number" step="0.01" min="0" />
+                            </div>
+                            <span asp-validation-for="Balance" class="text-danger small"></span>
+                            <div class="form-text">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Minimum initial deposit required
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="InterestRate" class="form-label">Interest Rate (%)</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-percentage text-primary"></i>
+                                </span>
+                                <input asp-for="InterestRate" class="form-control border-start-0" type="number" step="0.1" value="3.5" />
+                            </div>
+                            <span asp-validation-for="InterestRate" class="text-danger small"></span>
+                        </div>
+
+                        <div class="alert alert-info mb-4">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-info-circle fa-lg text-primary me-3"></i>
+                                <div>
+                                    <h6 class="mb-1">Account Benefits</h6>
+                                    <p class="small mb-0">Enjoy competitive interest rates, no maintenance fees, and easy access to your savings.</p>
+                                </div>
+                            </div>                        </div>                        <div class="d-flex gap-2">
+                            <button type="submit" id="submitButton" class="btn btn-primary btn-lg px-4 position-relative" name="submitButton">
+                                <i class="fas fa-save me-2"></i>Open Account
+                                <span class="spinner-border spinner-border-sm ms-2 d-none" id="submitSpinner" role="status" aria-hidden="true"></span>
+                            </button>
+                            <a asp-controller="Savings" asp-action="Index" class="btn btn-outline-secondary btn-lg px-4">
+                                <i class="fas fa-arrow-left me-2"></i>Back to List
+                            </a>
+                        </div>
+                        
+                        <!-- Hidden fields to ensure the form is submitted properly -->
+                        <input type="hidden" name="formSubmitted" value="true" />
+                        @Html.AntiForgeryToken()
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}    <script>
+        $(document).ready(function() {
+            // Initialize form validation
+            $('#savingsForm').validate({
+                rules: {
+                    ClientId: {
+                        required: true
+                    },
+                    Balance: {
+                        required: true,
+                        number: true,
+                        min: 0
+                    },
+                    InterestRate: {
+                        required: true,
+                        number: true,
+                        min: 0.1,
+                        max: 100
+                    }
+                },
+                messages: {
+                    ClientId: "Please select a client",
+                    Balance: {
+                        required: "Please enter an initial deposit amount",
+                        number: "Please enter a valid number",
+                        min: "Amount must be greater than or equal to 0"
+                    },
+                    InterestRate: {
+                        required: "Please enter an interest rate",
+                        number: "Please enter a valid number",
+                        min: "Interest rate must be at least 0.1%",
+                        max: "Interest rate cannot exceed 100%"
+                    }
+                },
+                errorElement: 'span',
+                errorPlacement: function(error, element) {
+                    error.addClass('text-danger small');
+                    element.closest('.mb-4').append(error);
+                },
+                highlight: function(element) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function(element) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+            
+            // Add event handler with explicit form ID
+            $('#savingsForm').on('submit', function(e) {
+                // Add log for debugging
+                console.log("Form submitting with ClientId: " + $("#ClientId").val() + 
+                           ", Balance: " + $("#Balance").val() + 
+                           ", InterestRate: " + $("#InterestRate").val());
+                
+                // Check if client is selected
+                if ($("#ClientId").val() === "" || $("#ClientId").val() === null) {
+                    console.log("Client not selected");
+                    $("#ClientId").addClass('is-invalid');
+                    e.preventDefault();
+                    return false;
+                }
+                
+                if ($(this).valid()) {
+                    console.log("Form validation passed");
+                    // Disable the submit button and show loading
+                    $('#submitButton').prop('disabled', true);
+                    $('#submitSpinner').removeClass('d-none');
+                    
+                    // Let the form submit
+                    return true;
+                } else {
+                    console.log("Form validation failed");
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            
+            // Add debug messages to see if the form is submitting
+            console.log("Form initialization complete");
+            $("#submitButton").click(function(e) {
+                console.log("Submit button clicked");
+            });
+        });
+    </script>
+}

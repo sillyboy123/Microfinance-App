@@ -1,0 +1,222 @@
+@page
+@using MicrofinanceApp.Data
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.Extensions.Configuration
+@using System.Text.RegularExpressions
+@model ConnectionTestModel
+@{
+    ViewData["Title"] = "Database Connection Test";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-lg border-0 rounded-4 mb-4">
+        <div class="card-header bg-primary text-white p-4">
+            <div class="d-flex align-items-center">
+                <div class="me-3 fs-1">
+                    <i class="fas fa-database"></i>
+                </div>
+                <div>
+                    <h2 class="mb-1">Database Connection Test</h2>
+                    <p class="mb-0 opacity-75">Detailed database connectivity diagnostics</p>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <h4 class="card-title mb-4">Connection Status</h4>
+            @if (Model.CanConnect)
+            {
+                <div class="alert alert-success mb-4">
+                    <div class="d-flex">
+                        <div class="me-3 fs-2">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div>
+                            <h5 class="alert-heading mb-1">Database connection successful!</h5>
+                            <p class="mb-0">Your application is properly connected to the database.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h5 class="mb-3">Database Information:</h5>
+                <div class="table-responsive mb-4">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th class="bg-light w-25">Provider</th>
+                            <td>@Model.ProviderName</td>
+                        </tr>
+                        <tr>
+                            <th class="bg-light">Connection String</th>
+                            <td><code>@Model.ConnectionString</code></td>
+                        </tr>
+                        <tr>
+                            <th>Database Created</th>
+                            <td>@(Model.DatabaseExists ? "Yes" : "No")</td>
+                        </tr>
+                        <tr>
+                            <th>Pending Migrations</th>
+                            <td>@(Model.PendingMigrations > 0 ? $"Yes ({Model.PendingMigrations})" : "No")</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                @if (Model.PendingMigrations > 0)
+                {
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Warning:</strong> There are pending migrations. The database schema is not up to date.
+                    </div>
+                }
+                
+                @if (Model.Tables.Any())
+                {
+                    <h6>Database Tables:</h6>
+                    <ul class="list-group mb-3">
+                        @foreach (var table in Model.Tables)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                @table.Key
+                                <span class="badge bg-primary rounded-pill">@table.Value rows</span>
+                            </li>
+                        }
+                    </ul>
+                }
+            }
+            else
+            {
+                <div class="alert alert-danger">
+                    <i class="fas fa-times-circle me-2"></i>
+                    <strong>Database connection failed!</strong>
+                    <p class="mb-0 mt-2">@Model.ErrorMessage</p>
+                </div>
+                
+                <div class="mt-4">
+                    <h6>Troubleshooting Steps:</h6>
+                    <ol>
+                        <li>Make sure SQL Server is running on your machine</li>
+                        <li>Check the connection string in appsettings.json</li>
+                        <li>Verify that the database exists or can be created</li>
+                        <li>Ensure the application has the right permissions</li>
+                    </ol>
+                </div>
+            }
+        </div>
+        <div class="card-footer">
+            <a href="/" class="btn btn-outline-primary">
+                <i class="fas fa-home me-2"></i>
+                Return to Home Page
+            </a>
+            <form method="post" class="d-inline">
+                <button type="submit" class="btn btn-primary ms-2">
+                    <i class="fas fa-sync me-2"></i>
+                    Test Connection Again
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@functions {
+    public class ConnectionTestModel : Microsoft.AspNetCore.Mvc.RazorPages.PageModel
+    {
+        private readonly MicrofinanceApp.Data.ApplicationDbContext _context;
+        private readonly Microsoft.Extensions.Configuration.IConfiguration _configuration;
+        
+        public bool CanConnect { get; private set; }
+        public bool DatabaseExists { get; private set; }
+        public string ErrorMessage { get; private set; } = string.Empty;
+        public string ConnectionString { get; private set; } = string.Empty;
+        public string ProviderName { get; private set; } = string.Empty;
+        public int PendingMigrations { get; private set; }
+        public Dictionary<string, int> Tables { get; private set; } = new Dictionary<string, int>();
+        
+        public ConnectionTestModel(MicrofinanceApp.Data.ApplicationDbContext context, Microsoft.Extensions.Configuration.IConfiguration configuration)
+        {
+            _context = context;
+            _configuration = configuration;
+              // Obfuscate password in connection string
+            var connStr = _configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
+            if (!string.IsNullOrEmpty(connStr))
+            {
+                ConnectionString = System.Text.RegularExpressions.Regex.Replace(connStr, 
+                    @"(Password|pwd)=[^;]*", 
+                    "$1=********", 
+                    System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            }
+        }
+        
+        public void OnGet()
+        {
+            TestConnection();
+        }
+        
+        public void OnPost()
+        {
+            TestConnection();
+        }
+        
+        private void TestConnection()
+        {
+            try
+            {
+                CanConnect = _context.Database.CanConnect();
+                
+                if (CanConnect)
+                {
+                    ProviderName = _context.Database.ProviderName ?? "Unknown";
+                    DatabaseExists = _context.Database.EnsureCreated();
+                    PendingMigrations = _context.Database.GetPendingMigrations().Count();
+                    
+                    // Get table information
+                    var tableQuery = @"
+                        SELECT 
+                            t.name AS TableName,
+                            p.rows AS RowCount
+                        FROM 
+                            sys.tables t
+                        INNER JOIN 
+                            sys.indexes i ON t.OBJECT_ID = i.object_id
+                        INNER JOIN 
+                            sys.partitions p ON i.object_id = p.OBJECT_ID AND i.index_id = p.index_id
+                        WHERE 
+                            t.is_ms_shipped = 0 AND
+                            i.OBJECT_ID > 255 AND
+                            i.index_id <= 1
+                        GROUP BY 
+                            t.name, p.rows
+                        ORDER BY 
+                            t.name";
+
+                    try
+                    {
+                        var connection = _context.Database.GetDbConnection();
+                        if (connection.State != System.Data.ConnectionState.Open)
+                            connection.Open();
+                            
+                        using (var command = connection.CreateCommand())
+                        {
+                            command.CommandText = tableQuery;
+                            using (var reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    var tableName = reader.GetString(0);
+                                    var rowCount = reader.GetInt32(1);
+                                    Tables[tableName] = rowCount;
+                                }
+                            }
+                        }                    }
+                    catch (Exception)
+                    {
+                        // If we can't get table info, just continue
+                        // This might happen with SQLite or other providers
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                CanConnect = false;
+                ErrorMessage = $"{ex.Message}{(ex.InnerException != null ? $" - {ex.InnerException.Message}" : string.Empty)}";
+            }
+        }
+    }
+}

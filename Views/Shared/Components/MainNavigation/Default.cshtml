@@ -1,0 +1,67 @@
+@using Microsoft.AspNetCore.Identity
+
+<ul class="navbar-nav me-auto">
+    <li class="nav-item">
+        <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")" 
+           asp-controller="Home" asp-action="Index">
+            <i class="fas fa-home nav-icon"></i>Home
+        </a>
+    </li>
+    
+    @if (User?.Identity?.IsAuthenticated ?? false)
+    {
+        <li class="nav-item">
+            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Dashboard" ? "active" : "")" 
+               asp-controller="Home" asp-action="Dashboard">
+                <i class="fas fa-chart-line nav-icon"></i>Dashboard
+            </a>
+        </li>
+        
+        <!-- Financial Services Dropdown -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle @(ViewContext.RouteData.Values["Controller"]?.ToString() is "Loans" or "Savings" or "Transactions" ? "active" : "")" 
+               href="#" id="financialDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-dollar-sign nav-icon"></i>Financial Services
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="financialDropdown">
+                <li>
+                    <a class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Loans" ? "active" : "")" 
+                       asp-controller="Loans" asp-action="Index">
+                       <i class="fas fa-money-bill-wave me-2"></i>Loans
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Savings" ? "active" : "")" 
+                       asp-controller="Savings" asp-action="Index">
+                       <i class="fas fa-piggy-bank me-2"></i>Savings
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Transactions" ? "active" : "")" 
+                       asp-controller="Transactions" asp-action="Index">
+                       <i class="fas fa-exchange-alt me-2"></i>Transactions
+                    </a>
+                </li>
+            </ul>
+        </li>
+        
+        <li class="nav-item">            
+            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Clients" ? "active" : "")" 
+               asp-controller="Clients" asp-action="Index">
+                <i class="fas fa-users nav-icon"></i>Clients
+            </a>
+        </li>
+          <li class="nav-item">
+            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Reports" ? "active" : "")" 
+               asp-controller="Home" asp-action="Reports">
+                <i class="fas fa-file-alt nav-icon"></i>Reports
+            </a>
+        </li>
+        
+        <li class="nav-item">
+            <a class="nav-link @(ViewContext.RouteData.Values["Page"]?.ToString()?.Contains("DatabaseStatus") == true ? "active" : "")" 
+               href="/DatabaseStatus">
+                <i class="fas fa-database nav-icon"></i>Database Status
+            </a>        </li>
+    }
+</ul>

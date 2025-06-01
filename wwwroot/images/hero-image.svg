@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background Elements -->
+    <rect width="800" height="600" fill="#F8F9FA"/>
+    <path d="M0 400 C200 450 600 300 800 500" fill="#E7F1FF" opacity="0.5"/>
+    <path d="M0 450 C300 500 500 350 800 550" fill="#CCE0FF" opacity="0.3"/>
+    
+    <!-- Community Group -->
+    <g transform="translate(100, 200)">
+        <!-- Person 1 -->
+        <path d="M50 100 C40 70 60 70 50 40 C45 20 55 20 50 0" stroke="#0D6EFD" stroke-width="3" fill="none"/>
+        <circle cx="50" cy="0" r="15" fill="#0D6EFD"/>
+        
+        <!-- Person 2 -->
+        <path d="M100 100 C90 70 110 70 100 40 C95 20 105 20 100 0" stroke="#198754" stroke-width="3" fill="none"/>
+        <circle cx="100" cy="0" r="15" fill="#198754"/>
+        
+        <!-- Person 3 -->
+        <path d="M150 100 C140 70 160 70 150 40 C145 20 155 20 150 0" stroke="#DC3545" stroke-width="3" fill="none"/>
+        <circle cx="150" cy="0" r="15" fill="#DC3545"/>
+    </g>
+    
+    <!-- Growth Chart -->
+    <g transform="translate(400, 150)">
+        <!-- Vertical Axis -->
+        <line x1="0" y1="300" x2="0" y2="0" stroke="#495057" stroke-width="2"/>
+        <!-- Horizontal Axis -->
+        <line x1="0" y1="300" x2="300" y2="300" stroke="#495057" stroke-width="2"/>
+        
+        <!-- Growth Line -->
+        <path d="M0 280 Q75 260 150 200 T300 50" stroke="#0D6EFD" stroke-width="4" fill="none"/>
+        
+        <!-- Data Points -->
+        <circle cx="0" cy="280" r="6" fill="#0D6EFD"/>
+        <circle cx="75" cy="260" r="6" fill="#0D6EFD"/>
+        <circle cx="150" cy="200" r="6" fill="#0D6EFD"/>
+        <circle cx="225" cy="120" r="6" fill="#0D6EFD"/>
+        <circle cx="300" cy="50" r="6" fill="#0D6EFD"/>
+        
+        <!-- Floating Coins -->
+        <g>
+            <circle cx="100" cy="150" r="20" fill="#FFC107" opacity="0.9"/>
+            <text x="100" y="155" text-anchor="middle" fill="#000" font-size="16">$</text>
+            
+            <circle cx="250" cy="100" r="20" fill="#FFC107" opacity="0.9"/>
+            <text x="250" y="105" text-anchor="middle" fill="#000" font-size="16">$</text>
+            
+            <circle cx="180" cy="80" r="20" fill="#FFC107" opacity="0.9"/>
+            <text x="180" y="85" text-anchor="middle" fill="#000" font-size="16">$</text>
+        </g>
+    </g>
+    
+    <!-- Decorative Elements -->
+    <g transform="translate(50, 50)">
+        <circle cx="0" cy="0" r="5" fill="#0D6EFD" opacity="0.5"/>
+        <circle cx="20" cy="20" r="3" fill="#198754" opacity="0.5"/>
+        <circle cx="40" cy="0" r="4" fill="#DC3545" opacity="0.5"/>
+    </g>
+    <g transform="translate(650, 450)">
+        <circle cx="0" cy="0" r="5" fill="#0D6EFD" opacity="0.5"/>
+        <circle cx="20" cy="20" r="3" fill="#198754" opacity="0.5"/>
+        <circle cx="40" cy="0" r="4" fill="#DC3545" opacity="0.5"/>
+    </g>
+</svg>
+    <circle cx="300" cy="200" r="6" fill="#0D6EFD"/>
+    <circle cx="400" cy="150" r="6" fill="#0D6EFD"/>
+    <circle cx="500" cy="100" r="6" fill="#0D6EFD"/>
+    
+    <!-- Coins -->
+    <circle cx="150" cy="180" r="30" fill="#FFC107"/>
+    <circle cx="450" cy="220" r="30" fill="#FFC107"/>
+    <circle cx="350" cy="280" r="30" fill="#FFC107"/>
+    
+    <!-- Dollar Signs -->
+    <text x="140" y="190" font-family="Arial" font-size="24" fill="#FFFFFF">$</text>
+    <text x="440" y="230" font-family="Arial" font-size="24" fill="#FFFFFF">$</text>
+    <text x="340" y="290" font-family="Arial" font-size="24" fill="#FFFFFF">$</text>
+    
+    <!-- Growth Arrow -->
+    <path d="M520 80 L550 50 L580 80" stroke="#198754" stroke-width="4" fill="none"/>
+</svg>

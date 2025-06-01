@@ -1,0 +1,162 @@
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold">Contact Us</h1>
+                <p class="lead text-muted">We're here to help with any questions about our microfinance services</p>
+            </div>
+            
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                    <i class="fas fa-check-circle me-2"></i> @TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            
+            <div class="row g-5">
+                <div class="col-lg-5">
+                    <div class="card shadow-sm border-0 rounded-4 mb-4">
+                        <div class="card-body p-4">
+                            <h4 class="fw-bold mb-4">Contact Information</h4>
+                            
+                            <div class="d-flex mb-4">
+                                <div class="flex-shrink-0">
+                                    <div class="d-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10" 
+                                         style="width: 48px; height: 48px;">
+                                        <i class="fas fa-map-marker-alt text-primary"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h5 class="fs-6 fw-semibold">Address</h5>
+                                    <p class="text-muted mb-0">
+                                        123 Finance Street, Suite 100<br>
+                                        Lagos, Nigeria 101233
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex mb-4">
+                                <div class="flex-shrink-0">
+                                    <div class="d-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10" 
+                                         style="width: 48px; height: 48px;">
+                                        <i class="fas fa-phone text-primary"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h5 class="fs-6 fw-semibold">Phone</h5>
+                                    <p class="text-muted mb-0">+234 (800) 123-4567</p>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex mb-4">
+                                <div class="flex-shrink-0">
+                                    <div class="d-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10" 
+                                         style="width: 48px; height: 48px;">
+                                        <i class="fas fa-envelope text-primary"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h5 class="fs-6 fw-semibold">Email</h5>
+                                    <p class="text-muted mb-0">contact@microfinplus.com</p>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex">
+                                <div class="flex-shrink-0">
+                                    <div class="d-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10" 
+                                         style="width: 48px; height: 48px;">
+                                        <i class="fas fa-clock text-primary"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h5 class="fs-6 fw-semibold">Business Hours</h5>
+                                    <p class="text-muted mb-0">
+                                        Monday - Friday: 8:00 AM - 5:00 PM<br>
+                                        Saturday: 9:00 AM - 1:00 PM<br>
+                                        Sunday: Closed
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card shadow-sm border-0 rounded-4">
+                        <div class="card-body p-4">
+                            <h4 class="fw-bold mb-4">Connect With Us</h4>
+                            <div class="d-flex gap-3">
+                                <a href="#" class="btn btn-outline-primary rounded-circle p-2">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-info rounded-circle p-2">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-primary rounded-circle p-2">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-danger rounded-circle p-2">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-7">
+                    <div class="card shadow-sm border-0 rounded-4">
+                        <div class="card-body p-4">
+                            <h4 class="fw-bold mb-4">Send Us a Message</h4>
+                            <form asp-controller="Contact" asp-action="Index" method="post">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="name" name="name" placeholder="Your Name" required>
+                                            <label for="name">Your Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="Your Email" required>
+                                            <label for="email">Your Email</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject" required>
+                                    <label for="subject">Subject</label>
+                                </div>
+                                
+                                <div class="form-floating mb-3">
+                                    <textarea class="form-control" id="message" name="message" style="height: 120px" placeholder="Message" required></textarea>
+                                    <label for="message">Your Message</label>
+                                </div>
+                                
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-paper-plane me-2"></i>Send Message
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-5 pt-3">
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-body p-0">
+                        <div class="ratio ratio-16x9" style="height: 400px;">
+                            <iframe src="https://maps.google.com/maps?q=Lagos,Nigeria&t=&z=13&ie=UTF8&iwloc=&output=embed" 
+                                    frameborder="0" scrolling="no" marginheight="0" marginwidth="0" class="rounded-4"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

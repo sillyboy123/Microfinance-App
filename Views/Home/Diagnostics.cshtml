@@ -1,0 +1,135 @@
+@{
+    ViewData["Title"] = "Database Diagnostics";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Database Diagnostics</h1>
+    
+    <div id="diagnosticsResults" class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-4">
+            <div class="d-flex align-items-center mb-4">
+                <div class="spinner-border text-primary me-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <h5 class="mb-0">Loading diagnostics data...</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Fetch diagnostics data
+            $.ajax({
+                url: '/diagnostics',
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    displayDiagnostics(data);
+                },
+                error: function(xhr, status, error) {
+                    $('#diagnosticsResults').html(`
+                        <div class="card-body p-4">
+                            <div class="alert alert-danger mb-0">
+                                <h5 class="alert-heading">Error Loading Diagnostics</h5>
+                                <p class="mb-0">${error}</p>
+                            </div>
+                        </div>
+                    `);
+                }
+            });
+            
+            function displayDiagnostics(data) {
+                let html = '<div class="card-body p-4">';
+                
+                // Database connection status
+                if (data.DatabaseConnection === "Success") {
+                    html += `
+                        <div class="alert alert-success mb-4">
+                            <h5 class="alert-heading"><i class="fas fa-check-circle me-2"></i>Database Connection Successful</h5>
+                            <p class="mb-0">Your application is successfully connected to the database.</p>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="alert alert-danger mb-4">
+                            <h5 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>Database Connection Failed</h5>
+                            <p class="mb-0">There was a problem connecting to your database.</p>
+                            ${data.Error ? `<p class="mt-2 mb-0"><strong>Error:</strong> ${data.Error}</p>` : ''}
+                            ${data.InnerError ? `<p class="mt-2 mb-0"><strong>Inner Error:</strong> ${data.InnerError}</p>` : ''}
+                        </div>
+                    `;
+                }
+                
+                // Database details table
+                html += `
+                    <h5 class="mb-3">Database Details</h5>
+                    <div class="table-responsive mb-4">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th width="30%" class="bg-light">Provider</th>
+                                <td>${data.DatabaseProvider || 'Unknown'}</td>
+                            </tr>
+                `;
+                
+                if (data.DatabaseConnection === "Success") {
+                    html += `
+                        <tr>
+                            <th class="bg-light">Pending Migrations</th>
+                            <td>${data.PendingMigrations || 'None'}</td>
+                        </tr>
+                        <tr>
+                            <th class="bg-light">Table Count</th>
+                            <td>${data.TableCount || '0'}</td>
+                        </tr>
+                        <tr>
+                            <th class="bg-light">Client Count</th>
+                            <td>${data.ClientCount !== undefined ? data.ClientCount : 'Unknown'}</td>
+                        </tr>
+                    `;
+                }
+                
+                html += `
+                        </table>
+                    </div>
+                `;
+                
+                // Recommendation section
+                html += `
+                    <h5 class="mb-3">Next Steps</h5>
+                `;
+                
+                if (data.DatabaseConnection === "Success") {
+                    html += `
+                        <div class="alert alert-info mb-0">
+                            <p class="mb-2"><strong>Everything looks good!</strong> You can now:</p>
+                            <ul class="mb-0">
+                                <li>Continue using your application</li>
+                                <li>Add more features</li>
+                                <li><a href="/ConnectionTest" class="alert-link">Run the full connection test page</a> for detailed information</li>
+                            </ul>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="alert alert-warning mb-0">
+                            <p class="mb-2"><strong>Recommendations:</strong></p>
+                            <ul class="mb-0">
+                                <li>Check that SQL Server is running on your machine</li>
+                                <li>Verify your connection string in appsettings.json</li>
+                                <li>Ensure the database has been created</li>
+                                <li>Check if the application can fall back to SQLite</li>
+                                <li><a href="/ConnectionTest" class="alert-link">Run the full connection test page</a> for more details</li>
+                            </ul>
+                        </div>
+                    `;
+                }
+                
+                html += '</div>'; // Close card-body
+                
+                $('#diagnosticsResults').html(html);
+            }
+        });
+    </script>
+}

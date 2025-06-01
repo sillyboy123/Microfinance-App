@@ -1,0 +1,151 @@
+@model MicrofinanceApp.Models.Client
+
+@{
+    ViewData["Title"] = "Create Client";
+}
+
+<div class="hero-section text-white mb-4">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <h1 class="display-4 fw-bold mb-3">Register New Client</h1>
+                <p class="lead mb-0 opacity-90">Add a new client to MicroFin Plus</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">                <div class="card-body p-4">
+                    <form action="/Clients/Create" method="post">
+                        @Html.AntiForgeryToken()
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger mb-4" role="alert">
+                                <ul>
+                                    @foreach (var modelState in ViewData.ModelState.Values)
+                                    {
+                                        foreach (var error in modelState.Errors)
+                                        {
+                                            <li>@error.ErrorMessage</li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        }
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-4" role="alert"></div>
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="FirstName" class="form-label"></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-user text-primary"></i>
+                                    </span>
+                                    <input asp-for="FirstName" class="form-control border-start-0" />
+                                </div>
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="LastName" class="form-label"></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-user text-primary"></i>
+                                    </span>
+                                    <input asp-for="LastName" class="form-control border-start-0" />
+                                </div>
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="Email" class="form-label"></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-envelope text-primary"></i>
+                                    </span>
+                                    <input asp-for="Email" class="form-control border-start-0" />
+                                </div>
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="PhoneNumber" class="form-label"></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-phone text-primary"></i>
+                                    </span>
+                                    <input asp-for="PhoneNumber" class="form-control border-start-0" />
+                                </div>
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Address" class="form-label"></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-home text-primary"></i>
+                                </span>
+                                <textarea asp-for="Address" class="form-control border-start-0" rows="3"></textarea>
+                            </div>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label asp-for="DateOfBirth" class="form-label"></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-calendar text-primary"></i>
+                                </span>
+                                <input asp-for="DateOfBirth" class="form-control border-start-0" type="date" />
+                            </div>
+                            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg px-4">
+                                <i class="fas fa-user-plus me-2"></i>Register Client
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary btn-lg px-4">
+                                <i class="fas fa-arrow-left me-2"></i>Back to List
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="row g-4 mt-4">
+                <div class="col-md-4">
+                    <div class="feature-card text-center p-4">
+                        <i class="fas fa-users feature-icon"></i>
+                        <h5>Client Management</h5>
+                        <p class="small text-muted">Easy client registration and tracking</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card text-center p-4">
+                        <i class="fas fa-money-bill-wave feature-icon"></i>
+                        <h5>Loan Processing</h5>
+                        <p class="small text-muted">Quick and efficient loan management</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card text-center p-4">
+                        <i class="fas fa-chart-line feature-icon"></i>
+                        <h5>Performance Tracking</h5>
+                        <p class="small text-muted">Monitor client progress</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

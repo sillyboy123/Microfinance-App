@@ -1,0 +1,329 @@
+@model MicrofinanceApp.ViewModels.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container py-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        <div>
+            <a href="#" class="btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-download fa-sm text-white-50 me-1"></i> Generate Report
+            </a>
+        </div>
+    </div>
+
+    <!-- Stats Cards Row -->
+    <div class="row g-4 mb-4">
+        <!-- Total Clients Card -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="text-xs fw-bold text-primary text-uppercase">
+                            Total Clients
+                        </div>
+                        <div class="rounded-circle bg-primary bg-opacity-10 p-2">
+                            <i class="fas fa-users text-primary"></i>
+                        </div>
+                    </div>
+                    <div class="h4 mb-0 fw-bold">@Model.TotalClients</div>
+                    <div class="mt-2 text-muted small">
+                        <span class="text-success me-1">
+                            <i class="fas fa-arrow-up"></i> 6.8%
+                        </span>
+                        <span>Since last month</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Loans Card -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="text-xs fw-bold text-success text-uppercase">
+                            Active Loans
+                        </div>
+                        <div class="rounded-circle bg-success bg-opacity-10 p-2">
+                            <i class="fas fa-money-bill-wave text-success"></i>
+                        </div>
+                    </div>
+                    <div class="h4 mb-0 fw-bold">@Model.ActiveLoans</div>
+                    <div class="mt-2 text-muted small">
+                        <span class="text-success me-1">
+                            <i class="fas fa-arrow-up"></i> 3.2%
+                        </span>
+                        <span>Since last month</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Loan Amount Card -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="text-xs fw-bold text-info text-uppercase">
+                            Total Loan Amount
+                        </div>
+                        <div class="rounded-circle bg-info bg-opacity-10 p-2">
+                            <i class="fas fa-dollar-sign text-info"></i>
+                        </div>
+                    </div>
+                    <div class="h4 mb-0 fw-bold">$@Model.TotalLoanAmount.ToString("#,##0")</div>
+                    <div class="mt-2 text-muted small">
+                        <span class="text-success me-1">
+                            <i class="fas fa-arrow-up"></i> 8.5%
+                        </span>
+                        <span>Since last month</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Outstanding Balance Card -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="text-xs fw-bold text-warning text-uppercase">
+                            Outstanding Balance
+                        </div>
+                        <div class="rounded-circle bg-warning bg-opacity-10 p-2">
+                            <i class="fas fa-clock text-warning"></i>
+                        </div>
+                    </div>
+                    <div class="h4 mb-0 fw-bold">$@Model.OutstandingBalance.ToString("#,##0")</div>
+                    <div class="mt-2 text-muted small">
+                        <span class="text-danger me-1">
+                            <i class="fas fa-arrow-up"></i> 2.4%
+                        </span>
+                        <span>Since last month</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <!-- Total Savings Card -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="text-xs fw-bold text-primary text-uppercase">
+                            Total Savings
+                        </div>
+                        <div class="rounded-circle bg-primary bg-opacity-10 p-2">
+                            <i class="fas fa-piggy-bank text-primary"></i>
+                        </div>
+                    </div>
+                    <div class="h4 mb-0 fw-bold">$@Model.TotalSavings.ToString("#,##0")</div>
+                    <div class="mt-2 text-muted small">
+                        <span class="text-success me-1">
+                            <i class="fas fa-arrow-up"></i> 5.2%
+                        </span>
+                        <span>Since last month</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overdue Loans Card -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="text-xs fw-bold text-danger text-uppercase">
+                            Overdue Loans
+                        </div>
+                        <div class="rounded-circle bg-danger bg-opacity-10 p-2">
+                            <i class="fas fa-exclamation-circle text-danger"></i>
+                        </div>
+                    </div>
+                    <div class="h4 mb-0 fw-bold">@Model.OverdueLoans</div>
+                    <div class="mt-2 text-muted small">
+                        <span class="text-success me-1">
+                            <i class="fas fa-arrow-down"></i> 1.2%
+                        </span>
+                        <span>Since last month</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Repayment Rate Card -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="text-xs fw-bold text-success text-uppercase">
+                            Repayment Rate
+                        </div>
+                        <div class="rounded-circle bg-success bg-opacity-10 p-2">
+                            <i class="fas fa-chart-line text-success"></i>
+                        </div>
+                    </div>
+                    <div class="h4 mb-0 fw-bold">@Model.Performance.RepaymentRate%</div>
+                    <div class="mt-2 text-muted small">
+                        <span class="text-success me-1">
+                            <i class="fas fa-arrow-up"></i> 0.8%
+                        </span>
+                        <span>Since last month</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Growth Rate Card -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="text-xs fw-bold text-info text-uppercase">
+                            Growth Rate
+                        </div>
+                        <div class="rounded-circle bg-info bg-opacity-10 p-2">
+                            <i class="fas fa-percentage text-info"></i>
+                        </div>
+                    </div>
+                    <div class="h4 mb-0 fw-bold">@Model.Performance.GrowthRate%</div>
+                    <div class="mt-2 text-muted small">
+                        <span class="text-success me-1">
+                            <i class="fas fa-arrow-up"></i> 2.1%
+                        </span>
+                        <span>Since last month</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Recent Activities -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white py-3">
+                    <h6 class="m-0 fw-bold">Recent Activities</h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        @foreach (var activity in Model.RecentActivities)
+                        {
+                            <div class="list-group-item px-4 py-3 border-0">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        @{
+                                            string bgClass = activity.Type switch
+                                            {
+                                                "Loan" => "bg-primary",
+                                                "Payment" => "bg-success",
+                                                "Client" => "bg-info",
+                                                "Savings" => "bg-warning",
+                                                _ => "bg-secondary"
+                                            };
+                                            
+                                            string iconClass = activity.Type switch
+                                            {
+                                                "Loan" => "fas fa-money-bill-wave",
+                                                "Payment" => "fas fa-hand-holding-usd",
+                                                "Client" => "fas fa-user-plus",
+                                                "Savings" => "fas fa-piggy-bank",
+                                                _ => "fas fa-exchange-alt"
+                                            };
+                                        }
+                                        
+                                        <div class="activity-icon @bgClass bg-opacity-10 rounded-3 p-3">
+                                            <i class="@iconClass text-@bgClass.Substring(3)"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h6 class="mb-1 fw-semibold">@activity.Description</h6>
+                                            <small class="text-muted">@((DateTime.Now - activity.Timestamp).TotalHours < 24 ? $"{(int)(DateTime.Now - activity.Timestamp).TotalHours}h ago" : $"{(int)(DateTime.Now - activity.Timestamp).TotalDays}d ago")</small>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <p class="text-muted mb-0 small">@activity.ClientName</p>
+                                            @if (activity.Amount.HasValue)
+                                            {
+                                                <span class="fw-semibold text-@(activity.Type == "Payment" ? "success" : "primary")">
+                                                    $@activity.Amount.Value.ToString("#,##0.00")
+                                                </span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="card-footer bg-white text-center py-2">
+                    <a href="#" class="text-decoration-none">View All Activities</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upcoming Payments -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white py-3">
+                    <h6 class="m-0 fw-bold">Upcoming Payments</h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="ps-4">Client</th>
+                                    <th>Reference</th>
+                                    <th>Due Date</th>
+                                    <th class="text-end pe-4">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var payment in Model.UpcomingPayments)
+                                {
+                                    <tr>
+                                        <td class="ps-4">
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-initial rounded-circle d-inline-flex align-items-center justify-content-center bg-light text-dark"
+                                                     style="width: 32px; height: 32px;">
+                                                    <span>@payment.ClientName[0]</span>
+                                                </div>
+                                                <div class="ms-2">@payment.ClientName</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-light text-dark">@payment.LoanReference</span>
+                                        </td>
+                                        <td>
+                                            @{
+                                                int daysLeft = (payment.DueDate - DateTime.Now).Days;
+                                                string badgeClass = daysLeft switch
+                                                {
+                                                    <= 2 => "bg-danger bg-opacity-10 text-danger",
+                                                    <= 5 => "bg-warning bg-opacity-10 text-warning",
+                                                    _ => "bg-success bg-opacity-10 text-success"
+                                                };
+                                            }
+                                            <span class="badge @badgeClass">@payment.DueDate.ToString("MMM dd") (@daysLeft days)</span>
+                                        </td>
+                                        <td class="text-end pe-4">
+                                            <div class="fw-semibold">$@payment.Amount.ToString("#,##0.00")</div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer bg-white text-center py-2">
+                    <a href="#" class="text-decoration-none">View All Payments</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

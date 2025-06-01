@@ -1,0 +1,198 @@
+@model MicrofinanceApp.Models.Loan
+
+@{
+    ViewData["Title"] = "Apply for Loan";
+    var clients = (ViewData["Clients"] as IEnumerable<SelectListItem>) ?? Enumerable.Empty<SelectListItem>();
+}
+
+<div class="hero-section text-white mb-4">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <h1 class="display-4 fw-bold mb-3">Loan Application</h1>
+                <p class="lead mb-0 opacity-90">Apply for a loan with competitive interest rates</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post" class="needs-validation" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        
+                        <div class="mb-4">
+                            <label asp-for="ClientId" class="form-label">Select Client</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-user text-primary"></i>
+                                </span>
+                                <select asp-for="ClientId" class="form-select border-start-0" asp-items="clients">
+                                    <option value="">Select a client...</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="ClientId" class="text-danger small"></span>
+                            <div class="form-text">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Select the client applying for the loan
+                            </div>
+                        </div>                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="Amount" class="form-label">Loan Amount</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-dollar-sign text-primary"></i>
+                                    </span>
+                                    <input asp-for="Amount" class="form-control border-start-0" type="number" step="0.01" min="100" max="1000000" placeholder="Enter loan amount" />
+                                </div>
+                                <span asp-validation-for="Amount" class="text-danger"></span>
+                                <div class="form-text">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Enter an amount between $100 and $1,000,000
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="Term" class="form-label">Loan Term (Months)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="fas fa-calendar-alt text-primary"></i>
+                                    </span>
+                                    <input asp-for="Term" class="form-control border-start-0" type="number" min="1" max="60" placeholder="Enter loan term" />
+                                </div>
+                                <span asp-validation-for="Term" class="text-danger"></span>
+                                <div class="form-text">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Enter the number of months (1-60)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Purpose" class="form-label">Loan Purpose</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="fas fa-tasks text-primary"></i>
+                                </span>
+                                <select asp-for="Purpose" class="form-select border-start-0">
+                                    <option value="">Select a purpose...</option>
+                                    <option value="Business Expansion">Business Expansion</option>
+                                    <option value="Working Capital">Working Capital</option>
+                                    <option value="Equipment Purchase">Equipment Purchase</option>
+                                    <option value="Debt Consolidation">Debt Consolidation</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <span asp-validation-for="Purpose" class="text-danger"></span>
+                            <div class="form-text">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Provide the primary purpose for this loan
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info mb-4">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-calculator fa-lg text-primary me-2"></i>
+                                <h6 class="mb-0">Loan Summary</h6>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-sm-6">
+                                    <small class="d-block text-muted mb-1">Interest Rate</small>
+                                    <span class="h6 mb-0">@(Model?.InterestRate ?? 12)% APR</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <small class="d-block text-muted mb-1">Estimated Monthly Payment</small>
+                                    <span class="h6 mb-0" id="monthlyPayment">Calculated based on amount and term</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-end mt-4">
+                            <a asp-action="Index" class="btn btn-light me-2">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i>Submit Application
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="row g-4 mt-4">
+                <div class="col-md-4">
+                    <div class="feature-card text-center p-4">
+                        <i class="fas fa-percentage feature-icon"></i>
+                        <h5>Competitive Rates</h5>
+                        <p class="small text-muted">Low interest rates starting from 12% APR</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card text-center p-4">
+                        <i class="fas fa-clock feature-icon"></i>
+                        <h5>Quick Processing</h5>
+                        <p class="small text-muted">Get approved within 24-48 hours</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card text-center p-4">
+                        <i class="fas fa-shield-alt feature-icon"></i>
+                        <h5>Secure Process</h5>
+                        <p class="small text-muted">Your data is always protected</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        // Loan calculator function
+        function calculateMonthlyPayment() {
+            const amount = parseFloat($("#Amount").val()) || 0;
+            const term = parseInt($("#Term").val()) || 0;
+            const annualRate = @(Model?.InterestRate ?? 12);
+            
+            if (amount > 0 && term > 0) {
+                const monthlyRate = (annualRate / 100) / 12;
+                const payment = (amount * monthlyRate * Math.pow(1 + monthlyRate, term)) / (Math.pow(1 + monthlyRate, term) - 1);
+                $("#monthlyPayment").text(`$${payment.toFixed(2)}`);
+            } else {
+                $("#monthlyPayment").text("Calculated based on amount and term");
+            }
+        }
+
+        // Attach event listeners
+        $("#Amount, #Term").on("input", calculateMonthlyPayment);
+
+        // Enable Bootstrap form validation
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+}

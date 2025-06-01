@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Financial Support Illustration -->
+    <circle cx="60" cy="60" r="50" fill="rgba(13, 110, 253, 0.1)"/>
+    <path d="M45 60 C45 52 75 52 75 60 C75 68 45 68 45 60" stroke="#0D6EFD" stroke-width="4" stroke-linecap="round"/>
+    <path d="M60 40 L60 80" stroke="#0D6EFD" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="60" cy="35" r="10" fill="#FFC107"/>
+    <circle cx="60" cy="85" r="10" fill="#FFC107"/>
+</svg>

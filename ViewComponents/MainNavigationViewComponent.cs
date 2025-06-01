@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace MicrofinanceApp.ViewComponents
+namespace FinPlus.ViewComponents
 {
     public class MainNavigationViewComponent : ViewComponent
     {

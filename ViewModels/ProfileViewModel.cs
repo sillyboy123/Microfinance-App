@@ -1,6 +1,6 @@
 using System;
 
-namespace MicrofinanceApp.ViewModels
+namespace FinPlus.ViewModels
 {
     public class ProfileViewModel
     {

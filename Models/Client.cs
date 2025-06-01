@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MicrofinanceApp.Models
+namespace FinPlus.Models
 {
     public class Client
     {

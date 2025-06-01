@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
-using MicrofinanceApp.ViewModels;
+using FinPlus.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading.Tasks;
-using MicrofinanceApp.Data.Identity;
+using FinPlus.Data.Identity;
 
-namespace MicrofinanceApp.Controllers
+namespace FinPlus.Controllers
 {
     public class AccountController : Controller
     {

@@ -1,4 +1,4 @@
-# MicroFin Plus - Microfinance Application
+# FinPlus - Financial Inclusion Platform
 
 A comprehensive ASP.NET Core MVC application for microfinance institutions to manage clients, loans, savings accounts, payments, and transactions. This application provides a robust platform for financial inclusion and helps empower communities through accessible financial services.
 

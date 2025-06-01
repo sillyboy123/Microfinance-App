@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using MicrofinanceApp.Data;
+using FinPlus.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace MicrofinanceApp.Pages
+namespace FinPlus.Pages
 {
     public class ConnectionTestModel : PageModel
     {

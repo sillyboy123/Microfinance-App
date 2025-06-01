@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MicrofinanceApp.Data;
+using FinPlus.Data;
 
-namespace MicrofinanceApp.Controllers
+namespace FinPlus.Controllers
 {
     public class ContactController : Controller
     {

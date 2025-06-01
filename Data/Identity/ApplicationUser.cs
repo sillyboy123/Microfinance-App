@@ -1,7 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Identity;
 
-namespace MicrofinanceApp.Data.Identity;
+namespace FinPlus.Data.Identity;
 
 public class ApplicationUser : IdentityUser
 {

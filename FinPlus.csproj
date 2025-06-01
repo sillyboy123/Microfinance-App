@@ -2,8 +2,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>MicrofinanceApp</RootNamespace>
-    <AssemblyName>MicrofinanceApp</AssemblyName>
+    <RootNamespace>FinPlus</RootNamespace>
+    <AssemblyName>FinPlus</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

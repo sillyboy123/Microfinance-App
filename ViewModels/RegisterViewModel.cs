@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MicrofinanceApp.ViewModels
+namespace FinPlus.ViewModels
 {
     public class RegisterViewModel
     {        [Required(ErrorMessage = "Email is required")]

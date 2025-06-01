@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace MicrofinanceApp.Migrations
+namespace FinPlus.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

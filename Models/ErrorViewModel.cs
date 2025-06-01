@@ -1,4 +1,4 @@
-namespace MicrofinanceApp.Models;
+namespace FinPlus.Models;
 
 public class ErrorViewModel
 {

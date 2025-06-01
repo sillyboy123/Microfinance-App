@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MicrofinanceApp.Data;
-using MicrofinanceApp.Models;
+using FinPlus.Data;
+using FinPlus.Models;
 
-namespace MicrofinanceApp.Controllers
+namespace FinPlus.Controllers
 {
     public class ClientsController : Controller
     {

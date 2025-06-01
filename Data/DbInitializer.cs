@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using MicrofinanceApp.Data.Identity;
-using MicrofinanceApp.Models;
+using FinPlus.Data.Identity;
+using FinPlus.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
-namespace MicrofinanceApp.Data
+namespace FinPlus.Data
 {    public static class DbInitializer
     {
         public static async Task Initialize(ApplicationDbContext context, UserManager<ApplicationUser> userManager, ILogger logger)

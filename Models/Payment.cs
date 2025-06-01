@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MicrofinanceApp.Models
+namespace FinPlus.Models
 {
     public class Payment
     {

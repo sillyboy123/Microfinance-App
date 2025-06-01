@@ -1,7 +1,7 @@
-using MicrofinanceApp.Models;
+using FinPlus.Models;
 using System.Collections.Generic;
 
-namespace MicrofinanceApp.ViewModels
+namespace FinPlus.ViewModels
 {
     public class DashboardViewModel
     {

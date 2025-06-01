@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MicrofinanceApp.Data;
+using FinPlus.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MicrofinanceApp.Pages
+namespace FinPlus.Pages
 {
     public class DatabaseStatusModel : PageModel
     {

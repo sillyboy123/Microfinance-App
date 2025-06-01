@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microfinance App", "Microfinance App.csproj", "{B4BFD3F4-8F80-4715-D970-34C0FEA36D87}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinPlus", "FinPlus.csproj", "{B4BFD3F4-8F80-4715-D970-34C0FEA36D87}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

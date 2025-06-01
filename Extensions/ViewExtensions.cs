@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace MicrofinanceApp.Extensions
+namespace FinPlus.Extensions
 {
     public static class ViewExtensions
     {        

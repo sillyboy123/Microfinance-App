@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 
-namespace MicrofinanceApp.Data
+namespace FinPlus.Data
 {
     /// <summary>
     /// Database configuration helper that provides automatic fallback to SQLite
@@ -18,7 +18,7 @@ namespace MicrofinanceApp.Data
     public static void ConfigureWithFallback(
             DbContextOptionsBuilder options, 
             string connectionString,
-            string sqliteFilename = "MicrofinanceApp.db",
+            string sqliteFilename = "FinPlus.db",
             ILogger? logger = null)        {            // Check if the connection string is for SQLite
             if (connectionString != null && 
                 (connectionString.Contains("Data Source=") || 

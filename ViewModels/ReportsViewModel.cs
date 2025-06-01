@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using MicrofinanceApp.Models;
+using FinPlus.Models;
 
-namespace MicrofinanceApp.ViewModels
+namespace FinPlus.ViewModels
 {
     public class ReportsViewModel
     {

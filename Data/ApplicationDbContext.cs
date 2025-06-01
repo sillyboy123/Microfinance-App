@@ -1,10 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using MicrofinanceApp.Data.Identity;
-using MicrofinanceApp.Models;
+using FinPlus.Data.Identity;
+using FinPlus.Models;
 
-namespace MicrofinanceApp.Data
+namespace FinPlus.Data
 {    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)

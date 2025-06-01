@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MicrofinanceApp.Models;
-using MicrofinanceApp.ViewModels;
-using MicrofinanceApp.Data;
+using FinPlus.Models;
+using FinPlus.ViewModels;
+using FinPlus.Data;
 
-namespace MicrofinanceApp.Controllers;
+namespace FinPlus.Controllers;
 
 public class HomeController : Controller
 {

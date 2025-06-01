@@ -1,5 +1,5 @@
 @page
-@using MicrofinanceApp.Data
+@using FinPlus.Data
 @using Microsoft.EntityFrameworkCore
 @using Microsoft.Extensions.Configuration
 @using System.Text.RegularExpressions
@@ -118,7 +118,7 @@
 @functions {
     public class ConnectionTestModel : Microsoft.AspNetCore.Mvc.RazorPages.PageModel
     {
-        private readonly MicrofinanceApp.Data.ApplicationDbContext _context;
+        private readonly FinPlus.Data.ApplicationDbContext _context;
         private readonly Microsoft.Extensions.Configuration.IConfiguration _configuration;
         
         public bool CanConnect { get; private set; }
@@ -129,7 +129,7 @@
         public int PendingMigrations { get; private set; }
         public Dictionary<string, int> Tables { get; private set; } = new Dictionary<string, int>();
         
-        public ConnectionTestModel(MicrofinanceApp.Data.ApplicationDbContext context, Microsoft.Extensions.Configuration.IConfiguration configuration)
+        public ConnectionTestModel(FinPlus.Data.ApplicationDbContext context, Microsoft.Extensions.Configuration.IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;

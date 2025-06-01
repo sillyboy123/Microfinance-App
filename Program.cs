@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MicrofinanceApp.Data;
-using MicrofinanceApp.Data.Identity;
+using FinPlus.Data;
+using FinPlus.Data.Identity;
 using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +22,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => {
     DatabaseConfigHelper.ConfigureWithFallback(
         options, 
         connectionString ?? "Server=localhost\\SQLEXPRESS;Database=MicrofinanceApp;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True",
-        "MicrofinanceApp.db",
+        "FinPlus.db",
         dbLogger);
 });
 
